@@ -2,3 +2,5 @@ Hello Git
 Learning git
 new feat
 small change
+
+new line through other branch
