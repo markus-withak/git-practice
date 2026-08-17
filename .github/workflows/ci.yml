@@ -15,6 +15,11 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v4
 
+      - name: Debug OIDC
+        uses: github/actions-oidc-debugger@main
+        with:
+          audience: sts.amazonaws.com
+
       - name: Authenticate to AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
