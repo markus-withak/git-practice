@@ -18,7 +18,7 @@ jobs:
       - name: Authenticate to AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::510869689698:oidc-provider/token.actions.githubusercontent.com
+          role-to-assume: arn:aws:iam::510869689698:role/GitHubActionsECRRole
           aws-region: eu-north-1
 
       - name: Login to ECR
