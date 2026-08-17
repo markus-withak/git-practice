@@ -1,12 +1,15 @@
-name: First CI Pipeline
+name: Build Docker Image
 
 on:
   push:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say hello
-        run: echo "CI pipeline is working!"
+      - name: Get repository code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t my-python-app .
