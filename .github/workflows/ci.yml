@@ -1,7 +1,11 @@
-name: Build Docker Image
+name: Build and Push Docker Image
 
 on:
   push:
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build:
@@ -11,5 +15,25 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -t my-python-app .
+      - name: Authenticate to AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::510869689698:oidc-provider/token.actions.githubusercontent.com
+          aws-region: eu-north-1
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push ARM64 image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: 510869689698.dkr.ecr.eu-north-1.amazonaws.com/my-python-app:latest
